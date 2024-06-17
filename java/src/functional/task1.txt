@@ -1,0 +1,76 @@
+Користування функціональними інтерфейсами у Java це важлива частина розвитку навичок програмування.
+Перше завдання може бути таким:
+
+Завдання:
+Створіть функціональний інтерфейс з назвою StringOperation,
+який має один абстрактний метод String manipulate(String str).
+
+Потім створіть клас StringProcessor, в якому буде метод processString,
+що приймає об'єкт типу StringOperation і застосовує його метод manipulate до заданого рядка.
+Використовуйте цей клас для виконання двох різних маніпуляцій з рядками за допомогою лямбда-виразів.
+
+Інструкції:
+
+Створіть функціональний інтерфейс StringOperation, який має один метод
+manipulate(String str), який повертає модифікований рядок.
+В класі StringProcessor створіть метод processString, який приймає
+об'єкт типу StringOperation
+і застосовує його метод manipulate до рядка "Hello, World!".
+Створіть два об'єкти StringOperation за допомогою лямбда-виразів:
+один, який перетворює рядок
+в верхній регістр, інший, який додає до рядка " - modified".
+Викличте метод processString для кожного з цих об'єктів і виведіть
+результати на екран.
+
+
+
+
+
+
+
+
+
+
+Приклад реалізації:
+
+// Функціональний інтерфейс
+@FunctionalInterface
+interface StringOperation {
+    String manipulate(String str);
+}
+
+// Клас для обробки рядків
+class StringProcessor {
+    public void processString(StringOperation operation) {
+        String result = operation.manipulate("Hello, World!");
+        System.out.println("Result: " + result);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Створення об'єкту класу StringProcessor
+        StringProcessor processor = new StringProcessor();
+
+        // Лямбда-вираз, що перетворює рядок в верхній регістр
+        StringOperation upperCaseOperation = str -> str.toUpperCase();
+
+        // Лямбда-вираз, що додає до рядка " - modified"
+        StringOperation addSuffixOperation = str -> str + " - modified";
+
+        // Виклик методу processString для кожного об'єкту
+        processor.processString(upperCaseOperation);
+        processor.processString(addSuffixOperation);
+    }
+}
+
+У цьому прикладі:
+
+StringOperation визначається як функціональний інтерфейс з одним абстрактним
+методом manipulate.
+Клас StringProcessor має метод processString, який викликає метод manipulate об'єкта
+StringOperation зі строкою "Hello, World!".
+У методі main створюються два об'єкти StringOperation за допомогою лямбда-виразів
+upperCaseOperation і addSuffixOperation.
+Обидва лямбда-вирази передаються до методу processString об'єкта StringProcessor,
+який виводить результати на консоль.
