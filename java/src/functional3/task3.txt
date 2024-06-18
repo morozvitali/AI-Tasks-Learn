@@ -1,0 +1,138 @@
+Ось ще одне завдання, яке допоможе вам практикувати використання функціональних інтерфейсів у Java.
+
+Завдання: Обробка колекції об'єктів за допомогою функціональних інтерфейсів
+Ціль: створити функціональні інтерфейси для фільтрації і сортування колекції об'єктів.
+
+Інструкції:
+Створіть клас Person з такими полями:
+
+String name
+int age
+String city
+Додайте конструктор, геттери і метод toString.
+Створіть два функціональних інтерфейси:
+
+PersonFilter з одним методом boolean filter(Person person).
+PersonComparator з одним методом int compare(Person p1, Person p2).
+Створіть клас PersonProcessor, який має два методи:
+
+filterPersons(List<Person> persons, PersonFilter filter) - приймає список об'єктів Person і об'єкт типу PersonFilter, повертає новий список об'єктів Person, які відповідають фільтру.
+sortPersons(List<Person> persons, PersonComparator comparator) - приймає список об'єктів Person і об'єкт типу PersonComparator, сортує список згідно з компаратором.
+Реалізуйте в main методі наступне:
+
+Створіть список об'єктів Person.
+Створіть два об'єкти PersonFilter за допомогою лямбда-виразів:
+Перший фільтр, який вибирає людей старших за 30 років.
+Другий фільтр, який вибирає людей з міста "Kyiv".
+Створіть два об'єкти PersonComparator за допомогою лямбда-виразів:
+Перший компаратор, який сортує людей за віком.
+Другий компаратор, який сортує людей за ім'ям.
+Використовуйте методи filterPersons і sortPersons з цими об'єктами і виведіть результати на екран.
+Код:
+java
+Копіювати код
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+// Клас Person
+class Person {
+    private String name;
+    private int age;
+    private String city;
+
+    public Person(String name, int age, String city) {
+        this.name = name;
+        this.age = age;
+        this.city = city;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + ", city='" + city + "'}";
+    }
+}
+
+// Функціональний інтерфейс для фільтрації людей
+@FunctionalInterface
+interface PersonFilter {
+    boolean filter(Person person);
+}
+
+// Функціональний інтерфейс для порівняння людей
+@FunctionalInterface
+interface PersonComparator {
+    int compare(Person p1, Person p2);
+}
+
+// Клас для обробки людей
+class PersonProcessor {
+    public List<Person> filterPersons(List<Person> persons, PersonFilter filter) {
+        List<Person> result = new ArrayList<>();
+        for (Person person : persons) {
+            if (filter.filter(person)) {
+                result.add(person);
+            }
+        }
+        return result;
+    }
+
+    public void sortPersons(List<Person> persons, PersonComparator comparator) {
+        Collections.sort(persons, comparator::compare);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> persons = Arrays.asList(
+                new Person("Alice", 25, "Kyiv"),
+                new Person("Bob", 35, "Lviv"),
+                new Person("Charlie", 30, "Kyiv"),
+                new Person("David", 40, "Odessa"),
+                new Person("Eve", 28, "Kyiv")
+        );
+
+        PersonProcessor processor = new PersonProcessor();
+
+        // Фільтри
+        PersonFilter olderThanThirtyFilter = person -> person.getAge() > 30;
+        PersonFilter fromKyivFilter = person -> "Kyiv".equals(person.getCity());
+
+        // Компаратори
+        PersonComparator ageComparator = (p1, p2) -> Integer.compare(p1.getAge(), p2.getAge());
+        PersonComparator nameComparator = (p1, p2) -> p1.getName().compareTo(p2.getName());
+
+        // Фільтрація
+        List<Person> olderThanThirty = processor.filterPersons(persons, olderThanThirtyFilter);
+        List<Person> fromKyiv = processor.filterPersons(persons, fromKyivFilter);
+
+        // Сортування
+        List<Person> sortedByAge = new ArrayList<>(persons);
+        processor.sortPersons(sortedByAge, ageComparator);
+
+        List<Person> sortedByName = new ArrayList<>(persons);
+        processor.sortPersons(sortedByName, nameComparator);
+
+        // Вивід результатів
+        System.out.println("Original persons: " + persons);
+        System.out.println("Persons older than 30: " + olderThanThirty);
+        System.out.println("Persons from Kyiv: " + fromKyiv);
+        System.out.println("Persons sorted by age: " + sortedByAge);
+        System.out.println("Persons sorted by name: " + sortedByName);
+    }
+}
+Це завдання допоможе вам зрозуміти, як створювати і використовувати функціональні інтерфейси для роботи з об'єктами в колекціях, а також як застосовувати лямбда-вирази для фільтрації і сортування.

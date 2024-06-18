@@ -1,0 +1,95 @@
+ось нове завдання для практичного розуміння функціональних інтерфейсів у Java.
+
+Завдання: Фільтрація і трансформація списку чисел за допомогою функціональних інтерфейсів
+Ціль: створити функціональні інтерфейси для фільтрації і трансформації списку чисел.
+
+Інструкції:
+Створіть два функціональних інтерфейси:
+
+NumberFilter з одним методом boolean filter(int number).
+NumberTransformer з одним методом int transform(int number).
+Створіть клас NumberProcessor, який має два методи:
+
+filterNumbers(List<Integer> numbers, NumberFilter filter) - приймає список чисел і об'єкт типу NumberFilter, повертає новий список чисел, які відповідають фільтру.
+transformNumbers(List<Integer> numbers, NumberTransformer transformer) - приймає список чисел і об'єкт типу NumberTransformer, повертає новий список чисел після трансформації.
+Реалізуйте в main методі наступне:
+
+Створіть список чисел.
+Створіть два об'єкти NumberFilter за допомогою лямбда-виразів:
+Перший фільтр, який вибирає тільки парні числа.
+Другий фільтр, який вибирає тільки числа більші за 10.
+Створіть два об'єкти NumberTransformer за допомогою лямбда-виразів:
+Перший трансформер, який збільшує кожне число на 5.
+Другий трансформер, який множить кожне число на 2.
+Використовуйте методи filterNumbers і transformNumbers з цими об'єктами і виведіть результати на екран.
+Код:
+java
+Копіювати код
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+// Функціональний інтерфейс для фільтрації чисел
+@FunctionalInterface
+interface NumberFilter {
+    boolean filter(int number);
+}
+
+// Функціональний інтерфейс для трансформації чисел
+@FunctionalInterface
+interface NumberTransformer {
+    int transform(int number);
+}
+
+// Клас для обробки чисел
+class NumberProcessor {
+    public List<Integer> filterNumbers(List<Integer> numbers, NumberFilter filter) {
+        List<Integer> result = new ArrayList<>();
+        for (int number : numbers) {
+            if (filter.filter(number)) {
+                result.add(number);
+            }
+        }
+        return result;
+    }
+
+    public List<Integer> transformNumbers(List<Integer> numbers, NumberTransformer transformer) {
+        List<Integer> result = new ArrayList<>();
+        for (int number : numbers) {
+            result.add(transformer.transform(number));
+        }
+        return result;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 12, 15, 18, 20, 25);
+
+        NumberProcessor processor = new NumberProcessor();
+
+        // Фільтри
+        NumberFilter evenFilter = number -> number % 2 == 0;
+        NumberFilter greaterThanTenFilter = number -> number > 10;
+
+        // Трансформери
+        NumberTransformer addFiveTransformer = number -> number + 5;
+        NumberTransformer multiplyByTwoTransformer = number -> number * 2;
+
+        // Фільтрація
+        List<Integer> evenNumbers = processor.filterNumbers(numbers, evenFilter);
+        List<Integer> numbersGreaterThanTen = processor.filterNumbers(numbers, greaterThanTenFilter);
+
+        // Трансформація
+        List<Integer> numbersPlusFive = processor.transformNumbers(numbers, addFiveTransformer);
+        List<Integer> numbersTimesTwo = processor.transformNumbers(numbers, multiplyByTwoTransformer);
+
+        // Вивід результатів
+        System.out.println("Original numbers: " + numbers);
+        System.out.println("Even numbers: " + evenNumbers);
+        System.out.println("Numbers greater than 10: " + numbersGreaterThanTen);
+        System.out.println("Numbers plus 5: " + numbersPlusFive);
+        System.out.println("Numbers times 2: " + numbersTimesTwo);
+    }
+}
+Це завдання допоможе вам зрозуміти, як створювати і використовувати функціональні інтерфейси у Java, а також як застосовувати лямбда-вирази для фільтрації і трансформації списків.

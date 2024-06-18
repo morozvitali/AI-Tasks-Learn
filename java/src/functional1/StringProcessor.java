@@ -1,4 +1,4 @@
-package functional;
+package functional1;
 
 public class StringProcessor {
 
